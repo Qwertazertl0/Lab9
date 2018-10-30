@@ -30,13 +30,13 @@ public class EmployeeDatabase {
     /**
      * Returns the manager for the given employee.
      *
-     * @param employee
-     * @return
+     * @param employee the employee whose manager is returned
+     * @return the manager for the given employee
      */
     Employee findManager(final Employee employee) {
         Employee manager = null;
         for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getName() == employee.getManager()) {
+            if (employees.get(i).getName().equals(employee.getManager())) {
                 manager = employees.get(i);
                 break;
             }
@@ -56,6 +56,14 @@ public class EmployeeDatabase {
         /*
          * Implement this function
          */
+        if (!employee.getManager().equals("")) {
+            int count = 1 + countManagersAbove(findManager(employee));
+            return count;
+        } else {
+            return 0;
+        }
+
+        //Iterative solution would be for-looping through the managers until an empty string is found.
     }
 
     /**
@@ -70,6 +78,21 @@ public class EmployeeDatabase {
         /*
          * Implement this function
          */
+        int count = 0;
+        boolean noUnder = true;
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getManager().equals(employee.getName())) {
+                count += countEmployeesUnder(employees.get(i));
+                count++;
+                noUnder = false;
+            }
+        }
+        if (noUnder) {
+            return 0;
+        }
+        return count;
+
+        //Iterative solution would be looping through and checking that the given employee is a manager at some level
     }
 
     /**
